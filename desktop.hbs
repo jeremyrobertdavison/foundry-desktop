@@ -1,0 +1,29 @@
+<section class="fd-workstation" style="background-color:{{c.background}};{{#if wallpaper}}background-image:url('{{wallpaper}}');background-size:{{wallpaperCSS}};background-repeat:{{wallpaperRepeat}};background-position:center;{{/if}}">
+  <div class="fd-icons">{{#each desktop}}<button type="button" data-action="open" data-id="{{id}}" title="{{name}}"><i class="fa-solid {{icon}}"></i><span>{{name}}</span>{{#if locked}}<small>Locked</small>{{/if}}</button>{{/each}}</div>
+  {{#if panel}}<div class="fd-app-window"><div class="fd-titlebar"><span><i class="fa-solid fa-window-maximize"></i> {{#if (eq panel 'explorer')}}File Explorer{{else}}{{#if (eq panel 'mail')}}Mail{{else}}{{#if (eq panel 'browser')}}Browser{{else}}{{#if (eq panel 'search')}}Search{{else}}Recycle Bin{{/if}}{{/if}}{{/if}}{{/if}}</span><button type="button" data-action="closepanel" title="Close Window"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="fd-window-inner">
+    {{#if selected}}
+      <div class="fd-toolbar"><button type="button" data-action="back"><i class="fa-solid fa-arrow-left"></i> Back</button><strong>{{selected.name}}</strong></div>
+      {{#if locked}}<div class="fd-lock"><i class="fa-solid fa-lock"></i><h3>Password Protected</h3><p>Enter the password to open this item.</p><input type="password" name="password" placeholder="Password"><button type="button" data-action="unlock">Unlock</button></div>
+      {{else}}
+        {{#if (eq selected.type 'image')}}<div class="fd-media"><img src="{{selected.path}}" alt="{{selected.name}}"></div>
+        {{else if (eq selected.type 'audio')}}<div class="fd-media"><audio controls src="{{selected.path}}"></audio></div>
+        {{else if (eq selected.type 'video')}}<div class="fd-media"><video controls src="{{selected.path}}"></video></div>
+        {{else if (eq selected.type 'web')}}<div class="fd-browser-bar">{{selected.address}}</div><iframe title="Fictional web page" sandbox="" srcdoc="{{selected.content}}"></iframe>
+        {{else if (eq selected.type 'email')}}<div class="fd-email"><h2>{{selected.subject}}</h2><p><b>From:</b> {{selected.sender}} <b>To:</b> {{selected.recipient}}</p><div class="fd-pre">{{selected.content}}</div></div>
+        {{else if (eq selected.type 'spreadsheet')}}<pre class="fd-textfile">{{selected.content}}</pre>
+        {{else}}<pre class="fd-textfile">{{selected.content}}</pre>{{/if}}
+      {{/if}}
+      {{#if canRestore}}<button type="button" data-action="restore">Restore from Recycle Bin</button>{{/if}}
+    {{else}}
+      {{#if (eq panel 'explorer')}}<div class="fd-toolbar"><button type="button" data-action="up"><i class="fa-solid fa-arrow-up"></i> Up</button><strong>{{folderName}}</strong></div><div class="fd-file-list">{{#each listing}}<button type="button" data-action="open" data-id="{{id}}"><i class="fa-solid {{icon}}"></i><span>{{name}}</span>{{#if locked}}<i class="fa-solid fa-lock"></i>{{/if}}</button>{{else}}<p class="fd-empty">This folder is empty.</p>{{/each}}</div>
+      {{else if (eq panel 'mail')}}<div class="fd-toolbar"><strong>Inbox</strong></div><div class="fd-file-list">{{#each result}}<button type="button" data-action="open" data-id="{{id}}"><i class="fa-solid {{icon}}"></i><span><b>{{sender}}</b> — {{subject}}</span></button>{{else}}<p class="fd-empty">No messages.</p>{{/each}}</div>
+      {{else if (eq panel 'browser')}}<form class="fd-browser-bar" onsubmit="return false"><input name="address" placeholder="intranet.local" value="{{site}}"><button type="button" data-action="site">Go</button></form><p class="fd-empty">Enter a fictional website address configured by the GM.</p>
+      {{else if (eq panel 'search')}}<div class="fd-toolbar"><input name="search" value="{{search}}" placeholder="Search files and mail"><button type="button" data-action="search">Search</button></div><div class="fd-file-list">{{#each result}}<button type="button" data-action="open" data-id="{{id}}"><i class="fa-solid {{icon}}"></i><span>{{name}}</span></button>{{else}}<p class="fd-empty">No matching results. Hidden items are not indexed until discovered.</p>{{/each}}</div>
+      {{else if (eq panel 'trash')}}<div class="fd-toolbar"><strong>Recycle Bin</strong></div><div class="fd-file-list">{{#each result}}<button type="button" data-action="open" data-id="{{id}}"><i class="fa-solid {{icon}}"></i><span>{{name}}</span></button>{{else}}<p class="fd-empty">The Recycle Bin is empty.</p>{{/each}}</div>
+      {{/if}}
+    {{/if}}
+    </div></div>{{/if}}
+  {{#if start}}<div class="fd-start-menu"><header>{{#if avatar}}<img src="{{avatar}}" alt="Account avatar">{{else}}<i class="fa-solid fa-circle-user"></i>{{/if}}<div><strong>{{c.username}}</strong><small>Logged in to {{c.hostname}}</small></div></header><div class="fd-start-apps">{{#each appMenu}}<button type="button" data-action="launch" data-app="{{id}}"><i class="{{icon}}"></i> {{label}}</button>{{/each}}</div><button type="button" data-action="logout" class="fd-shutdown"><i class="fa-solid fa-power-off"></i> Close Computer</button></div>{{/if}}
+  <footer class="fd-taskbar"><button type="button" data-action="start" class="fd-start-button"><i class="fa-brands fa-windows"></i> Start</button><span class="fd-taskbar-host">{{c.hostname}}</span><span class="fd-clock">{{time}}</span></footer>
+</section>

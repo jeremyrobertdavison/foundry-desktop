@@ -1,0 +1,11 @@
+<section class="fd-shell fd-library">
+  <header class="fd-head"><div><h2>Computer Library</h2><p>Build fictional computers and grant access to connected players.</p></div><div class="fd-buttons"><button type="button" data-action="import"><i class="fa-solid fa-file-import"></i> Import</button><button type="button" class="fd-primary" data-action="new"><i class="fa-solid fa-plus"></i> New Computer</button></div></header>
+  <div class="fd-library-list">
+  {{#each computers}}
+  <article class="fd-computer" data-computer="{{id}}"><div class="fd-computer-heading"><i class="fa-solid fa-desktop"></i><div><strong>{{name}}</strong><small>{{hostname}} · {{username}} · {{items.length}} items</small></div></div>
+    <div class="fd-buttons fd-wrap"><button type="button" data-action="edit" data-id="{{id}}">Edit</button><button type="button" data-action="preview" data-id="{{id}}">Open</button><button type="button" data-action="duplicate" data-id="{{id}}">Duplicate</button><button type="button" data-action="export" data-id="{{id}}">Export</button><button type="button" data-action="remove" data-id="{{id}}">Delete</button></div>
+    <div class="fd-share"><select aria-label="Choose connected player"><option value="">Select an online player...</option>{{#each ../users}}<option value="{{id}}">{{name}}</option>{{/each}}</select><button type="button" data-action="share" data-id="{{id}}">Grant Access</button></div>
+  </article>
+  {{else}}<p class="fd-empty">No computers yet. Create your first workstation to begin.</p>{{/each}}
+  </div>
+</section>

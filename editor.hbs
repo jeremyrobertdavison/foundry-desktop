@@ -1,0 +1,24 @@
+<section class="fd-shell fd-builder">
+  <header class="fd-head"><div><h2>Computer Builder</h2><p>Edits stay in this window until you press Save Computer.</p></div><div class="fd-buttons"><button type="button" data-action="reset">Reset Discovery</button><button type="button" class="fd-primary" data-action="save"><i class="fa-solid fa-floppy-disk"></i> Save Computer</button></div></header>
+  <div class="fd-editor-scroll"><h3>Computer Identity and Appearance</h3>
+    <div class="fd-form-grid"><label>Library Name<input name="name" value="{{computer.name}}"></label><label>Computer Hostname<input name="hostname" value="{{computer.hostname}}"></label><label>Logged-in Username<input name="username" value="{{computer.username}}"></label><label>Desktop Background Color<input name="background" type="color" value="{{computer.background}}"></label>
+    <label class="fd-wide">Wallpaper Asset <span class="fd-inline"><input name="wallpaper" value="{{computer.wallpaper}}" placeholder="Foundry asset path"><button type="button" data-action="wallpaper">Browse</button></span></label><label>Wallpaper Display<select name="wallpaperMode">{{#each modes}}<option value="{{this}}" {{#if (eq this ../computer.wallpaperMode)}}selected{{/if}}>{{this}}</option>{{/each}}</select></label>
+    <label class="fd-wide">User Account Picture <span class="fd-inline"><input name="avatar" value="{{computer.avatar}}" placeholder="Optional image path"><button type="button" data-action="avatar">Browse</button></span></label></div>
+    <h3>Applications in Start Menu</h3><div class="fd-checkboxes">{{#each availableApps}}<label><input name="app-{{id}}" type="checkbox" {{#if checked}}checked{{/if}}> {{label}}</label>{{/each}}</div>
+    <div class="fd-items-head"><h3>Files, Folders and App Content</h3><button type="button" data-action="add"><i class="fa-solid fa-plus"></i> Add Item</button></div>
+    <div class="fd-editor-columns"><div class="fd-editor-items">{{#each items}}<button type="button" data-action="edit" data-id="{{id}}"><i class="fa-solid fa-file"></i> {{indent}}{{name}} <small>({{type}})</small>{{#if hidden}} <i class="fa-solid fa-eye-slash"></i>{{/if}}{{#if deleted}} <i class="fa-solid fa-trash"></i>{{/if}}</button>{{else}}<p>No items.</p>{{/each}}</div>
+    <div class="fd-item-form">{{#if selected}}
+       <h4>Edit Item</h4><label>File / Entry Name<input name="item-name" value="{{selected.name}}"></label>
+       <label>Type<select name="item-type">{{#each types}}<option value="{{this}}" {{#if (eq this ../selected.type)}}selected{{/if}}>{{this}}</option>{{/each}}</select></label>
+       <label>Inside Folder<select name="item-parent"><option value="">Desktop / Root</option>{{#each items}}{{#if (eq type 'folder')}}<option value="{{id}}" {{#if (eq id ../selected.parent)}}selected{{/if}}>{{name}}</option>{{/if}}{{/each}}</select></label>
+       <label>Content / Message Body / HTML / CSV<textarea name="item-content" rows="5">{{selected.content}}</textarea></label>
+       <label>Foundry Media Asset / Shortcut Target<input name="item-path" value="{{selected.path}}" placeholder="modules/.../image.webp or folder ID"></label>
+       <label>Password (empty = unlocked)<input name="item-password" value="{{selected.password}}"></label>
+       <div class="fd-form-grid"><label>Sender<input name="item-sender" value="{{selected.sender}}"></label><label>Recipient<input name="item-recipient" value="{{selected.recipient}}"></label></div>
+       <label>Email Subject<input name="item-subject" value="{{selected.subject}}"></label><label>Fictional Website Address<input name="item-address" value="{{selected.address}}" placeholder="intranet.local"></label>
+       <div class="fd-checkboxes"><label><input type="checkbox" name="item-hidden" {{#if selected.hidden}}checked{{/if}}> Hidden until discovered</label><label><input type="checkbox" name="item-deleted" {{#if selected.deleted}}checked{{/if}}> In Recycle Bin</label></div>
+       <button type="button" data-action="delete" class="fd-danger">Delete Item and Child Items</button>
+       {{else}}<p class="fd-empty">Select a file to edit its content or add a new item.</p>{{/if}}
+    </div></div>
+  </div>
+</section>

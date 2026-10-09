@@ -1,0 +1,22 @@
+name: Publish Foundry module release
+on:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make distributable archive
+        run: |
+          zip -r foundry-desktop.zip module.json scripts templates styles README.md LICENSE
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            module.json
+            foundry-desktop.zip
+          generate_release_notes: true
